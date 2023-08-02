@@ -36,18 +36,18 @@
 	<!-- <beans:bean id="sampleInterceptor" class="com.kh.teampl.interceptor.SampleInterceptor"></beans:bean> -->
 	<!-- <beans:bean id="authInterceptor" class="com.kh.teampl.interceptor.AuthInterceptor"></beans:bean> -->
 	
-	<interceptors>
-		<interceptor>
-			<mapping path="/board/**/*"/>
-			<mapping path="/user/**/*"/>
-			<mapping path="/reply/**/*"/>
-			<exclude-mapping path="/board/list"/>
-			<exclude-mapping path="/user/login"/>
-			<exclude-mapping path="/user/forgotPassword"/>
-			<exclude-mapping path="/user/sendPassword"/>
-			<beans:ref bean="authInterceptor"/>
-		</interceptor>
-	</interceptors>
+<!-- 	<interceptors> -->
+<!-- 		<interceptor> -->
+<!-- 			<mapping path="/board/**/*"/> -->
+<!-- 			<mapping path="/user/**/*"/> -->
+<!-- 			<mapping path="/reply/**/*"/> -->
+<!-- 			<exclude-mapping path="/board/list"/> -->
+<!-- 			<exclude-mapping path="/user/login"/> -->
+<!-- 			<exclude-mapping path="/user/forgotPassword"/> -->
+<!-- 			<exclude-mapping path="/user/sendPassword"/> -->
+<!-- 			<beans:ref bean="authInterceptor"/> -->
+<!-- 		</interceptor> -->
+<!-- 	</interceptors> -->
 	
 	<beans:bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<beans:property name="host" value="smtp.gmail.com"/>
