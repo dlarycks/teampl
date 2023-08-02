@@ -109,6 +109,9 @@ create table tbl_board(
     board_content varchar2(3000) not null,
     board_regdate timestamp default sysdate
 );
+alter table tbl_board
+add board_viewcount number(6) default 0;
+
 insert into tbl_board (board_no, member_id, board_type, board_title, board_content)
 values (seq_board_no.nextval, 'hong', '정보', '안녕하세요', '내용1');
 
