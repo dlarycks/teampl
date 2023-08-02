@@ -8,6 +8,7 @@ public class HomeController {
 	
 	@RequestMapping("/")
 	public String home() {
-		return "/mj/board/list";
+		System.out.println("hello home");
+		return "/mj/main/home";
 	}
 }
