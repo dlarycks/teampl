@@ -116,6 +116,17 @@ values (seq_board_no.nextval, 'hong', '정보', '안녕하세요', '내용1');
     create sequence seq_board_no;
     select seq_board_no.nextval from dual;
 
+-- tbl_board_like
+-- 아이디(fk), 글번호(fk)
+create table tbl_board_like(
+    member_id varchar2(100) not null references tbl_member(member_id),
+    board_no number(8) references tbl_board(board_no)
+);
+insert into tbl_board_like
+values('hong', 1);
+insert into tbl_board_like
+values ('lee', 1);
+
 -- tbl_board_img
 -- 글번호(fk), 이미지경로
 create table tbl_board_img(
@@ -143,4 +154,5 @@ create table tbl_reply (
 insert into tbl_reply(reply_no, board_no, member_id, reply_content, reply_group)
     values(seq_reply_no.nextval, 1, 'hong', '첫번째 댓글', seq_reply_no.currval);
 insert into tbl_reply(reply_no, board_no, member_id, reply_content, reply_group)
-    values(seq_reply_no.nextval, 1, 'lee', '두번째 댓글', seq_reply_no.currval); 
+    values(seq_reply_no.nextval, 1, 'lee', '두번째 댓글', seq_reply_no.currval);
+    commit;
