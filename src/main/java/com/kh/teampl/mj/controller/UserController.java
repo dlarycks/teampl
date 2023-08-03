@@ -1,7 +1,13 @@
 package com.kh.teampl.mj.controller;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,13 +25,33 @@ public class UserController {
 	private MemberService memberService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login() {
+	public String login(@CookieValue(value = "cookie_id", required = false) Cookie cookie, Model model) {
+		if (cookie != null) {
+			String cookie_id = cookie.getValue();
+			model.addAttribute("cookie_id", cookie_id);
+//			System.out.println("UserController, cookie_id : " + cookie_id);
+		}
 		return "/mj/user/login";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(LoginDto loginDto) {
-//		System.out.println("UserController : " + loginDto);
+	public String login(LoginDto loginDto, boolean remember_id, 
+			HttpServletResponse response, HttpSession session) {
+//		System.out.println("UserController, loginDto : " + loginDto);
+		System.out.println("UserController, remember_id : " + remember_id);
+		boolean loginResult = memberService.login(loginDto);
+		
+		if (loginResult == true) {
+			System.out.println("UserController, loginResult : " + loginResult);
+			session.setAttribute("loginInfo", loginDto);
+			/* 아이디 기억하기 쿠키 생성*/
+			if (remember_id == true) {
+				Cookie cookie = new Cookie("cookie_id", loginDto.getMember_id());
+//				cookie.setPath("/user/login");
+				cookie.setMaxAge(60 * 60 * 24 * 7);
+				response.addCookie(cookie);
+			}
+		}
 		return "redirect:/";
 	}
 	
@@ -47,10 +73,48 @@ public class UserController {
 	@RequestMapping(value = "/isDup", method = RequestMethod.POST)
 	public String isDup(String member_id) {
 //		System.out.println("UserController : " + member_id);
-		int count = memberService.isDup(member_id);
-		if (count == 1) {
+		boolean isDup = memberService.isDup(member_id);
+		if (isDup) {
 			return "fail";
 		}
 		return "success";
+	}
+	
+	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
+	public String userInfo(HttpSession session, Model model) {
+		LoginDto loginDto = (LoginDto)session.getAttribute("loginInfo");
+		MemberVo memberVo = memberService.getMemberInfo(loginDto.getMember_id());
+		model.addAttribute("memberVo", memberVo);
+		return "mj/user/userInfo";
+	}
+	
+	@RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
+	public String userInfo() {
+		return "mj/user/forgotPassword";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/chkForgotId", method = RequestMethod.POST)
+	public String chkForgotId(String member_name, String member_email) {
+		return memberService.chkForgotId(member_name, member_email);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/chkForgotPassword", method = RequestMethod.POST)
+	public String chkForgotPassword(String member_id, String member_name, String member_email) {
+		boolean result = memberService.chkForgotPassword(member_id, member_name, member_email);
+		if (result == true) {
+			return "success";
+		} else {
+			return "";
+		}
+	}
+	
+	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+	public String changePassword(String member_id, String new_password) {
+		System.out.println("UserController, member_id : " + member_id);
+		System.out.println("UserController, new_password : " + new_password);
+		memberService.changePassword(member_id, new_password);
+		return "redirect:/";
 	}
 }

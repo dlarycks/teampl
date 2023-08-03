@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +19,9 @@
 
 <!-- MY CSS -->
 <style>
+a {
+	color:black;
+}
 html {
 	position: relative;
 	min-height: 100%;
@@ -63,22 +67,32 @@ body {
 
 </head>
 <body>
-<div id="wrap">
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-10">
-			<img src="/mj/images/logo.png" alt="로고">
+			<a href="/"><img src="/mj/images/logo.png" alt="로고"></a>
 		</div>
 		<div class="col-md-1" style="margin:auto; display:block;">
 			<a>주문내역</a>
 		</div>
 		<div class="col-md-1" style="margin:auto; display:block;">
-			<a href="/user/login">로그인</a>
+			<c:choose>
+				<c:when test="${not empty loginInfo}">
+					<a href="/user/userInfo">
+						<img src="/mj/images/s_usericon.jpg" alt="로그인유저">
+					</a>
+				</c:when>
+				<c:otherwise>
+					<a href="/user/login">
+						로그인
+					</a>
+				</c:otherwise>			
+			</c:choose>
 		</div>
 	</div>
 	<div class="row" id="header_buton_list">
 		<div class="col-md-1 header_button">
-			<a><span>홈</span></a>
+			<a href="/"><span>홈</span></a>
 		</div>
 		<div class="col-md-1 header_button">
 			<a><span>PC견적</span></a>

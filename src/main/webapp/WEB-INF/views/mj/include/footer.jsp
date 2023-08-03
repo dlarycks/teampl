@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-</div>
 <!-- footer -->
 <footer class="footer">
     <div class="container">
 		<div class="row">
 	    	<div class="col-md-3" id="footer_logo">
-				<img src="/mj/images/logo.png">	
+				<img src="/mj/images/logo2.png">	
 	    	</div>
 	      	<div class="col-md-9" >
 				<p class="footer_text">㈜견적견적사이트   대표자 : 홍길동   Tel: 000-0000-0000</p>
