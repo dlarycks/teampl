@@ -18,5 +18,10 @@ public class MemberDao {
 		sqlSession.insert(NAMESPACE + "register", memberVo);
 	}
 	
+	public int isDup(String member_id) {
+		int count = sqlSession.selectOne(NAMESPACE + "isDup", member_id);
+		return count;
+	}
+	
 	
 }

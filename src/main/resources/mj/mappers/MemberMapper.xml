@@ -8,9 +8,12 @@
 	<insert id="register">
 		insert into tbl_member 
 			(member_no, member_id, member_pw, member_name, member_pno, member_email)
-    	values ((10000 + seq_member_no.nextval),
-    	 	#{member_id}, #{member_pw}, #{member_name}, #{member_pno}, #{member_email});
+    	values
+    		((10000 + seq_member_no.nextval), #{member_id}, #{member_pw}, #{member_name}, #{member_pno}, #{member_email})
 	</insert>
-	
+	<select id="isDup" resultType="int">
+		select count(*) from tbl_member
+		where member_id = #{member_id}
+	</select>
 
 </mapper>

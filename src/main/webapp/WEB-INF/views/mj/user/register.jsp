@@ -13,11 +13,43 @@
 	height:100%;
 }
 </style>
+<script>
+$(function() {
+	var isDup = true;
+	
+	$("#btnDupCheck").click(function(e) {
+		e.preventDefault();
+		var url = "/user/isDup"
+		var sData = {
+				"member_id" : $("#member_id").val()
+				};
+		$.post(url, sData, function(rData) {
+			$("#dupInfo").show();
+			if (rData == "success") {
+				$("#dupInfo").css("color", "green").text("사용 가능한 ID입니다.");
+				$("#chkDup").hide();
+				isDup = false;
+			} else if (rData == "fail") {
+				$("#dupInfo").css("color", "red").text("이미 존재하는 ID입니다.");
+				isDup = true;
+			}
+		});
+	});
+	
+	$("#btnRegister").click(function(){
+		if (isDup == true) {
+			$("#chkDup").show().css("color", "red").text("아이디 중복검사를 수행해 주세요.");		
+		} else {
+			$("#frmRegister").submit();
+		}
+	});
+});
+</script>
 </head>
 <body>
 <div id="wrap">
 	<img src="/mj/images/logo.png" alt="로고이미지">
-	<form action="/user/register" method="post" style="margin-top:30px;">
+	<form id="frmRegister" action="/user/register" method="post" style="margin-top:30px;">
 		<div class="form-row">
 			<div class="form-group col-md-12"><label>아래 정보를 정확하게 입력해 주세요.</label></div>
 		</div>
@@ -57,7 +89,7 @@
 		</div>
 		<div class="form-row">
 			<div class="form-group col-md-6">
-				<input type="number" class="form-control" id="member_pno" name="member_pno" placeholder="전화번호">
+				<input type="text" class="form-control" id="member_pno" name="member_pno" placeholder="전화번호">
 			</div>
 		</div>
 		<div class="form-row">
@@ -73,8 +105,8 @@
 		</div>
 		
 		
-		
-		<button type="submit" class="btn btn-primary">회원가입</button>
+		<button id="btnRegister" type="button" class="btn btn-primary">회원가입</button>
+		<span id="chkDup" style="display:none;">아이디 중복검사 여부 출력</span>
 	</form>
 	
 <!-- 	<form> -->

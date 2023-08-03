@@ -16,5 +16,10 @@ public class MemberService {
 		memberDao.register(memberVo);
 	}
 	
+	public int isDup(String member_id) {
+		int count = memberDao.isDup(member_id);
+		return count;
+	}
+	
 	
 }

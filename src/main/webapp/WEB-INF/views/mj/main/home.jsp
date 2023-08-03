@@ -13,7 +13,13 @@
 	  height: 100%;
 	}
 </style>
-
+<script>
+$(function(){
+	if ("${register_result}" == "success") {
+		alert("${register_name}님, 가입을 환영합니다.");
+	}
+});
+</script>
 <div id="demo" class="carousel slide" data-ride="carousel">
 
   <!-- The slideshow -->
