@@ -73,7 +73,7 @@ body {
 			<a>주문내역</a>
 		</div>
 		<div class="col-md-1" style="margin:auto; display:block;">
-			<a>로그인</a>
+			<a href="/user/login">로그인</a>
 		</div>
 	</div>
 	<div class="row" id="header_buton_list">
