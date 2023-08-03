@@ -30,4 +30,29 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	<!-- Encoding Filter -->					
+	<filter>				
+		<filter-name>encoding</filter-name>			
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>			
+		<init-param>			
+			<param-name>encoding</param-name>		
+			<param-value>utf-8</param-value>		
+		</init-param>			
+	</filter>				
+					
+	<filter-mapping>				
+		<filter-name>encoding</filter-name>			
+		<url-pattern>/*</url-pattern>			
+	</filter-mapping>				
+					
+	<!-- hidden method filter -->				
+	<filter>				
+		<filter-name>hideenMethodFilter</filter-name>			
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>			
+	</filter>				
+					
+	<filter-mapping>				
+		<filter-name>hideenMethodFilter</filter-name>			
+		<url-pattern>/*</url-pattern>			
+	</filter-mapping>				
 </web-app>
