@@ -13,22 +13,24 @@
 	  height: 100%;
 	}
 </style>
-<script>
-$(function(){
-	if ("${register_result}" == "success") {
-		alert("${register_name}님, 가입을 환영합니다.");
-	}
-});
-</script>
 <div id="demo" class="carousel slide" data-ride="carousel">
-
-  <!-- The slideshow -->
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="/mj/images/main_image1.jpg" alt="img1">
+	<!-- (hidden)결제 완료 창 -->
+	<div class="alert alert-primary" role="alert" id="registerResult" style="display:none;">
+		${register_name}님, 가입을 환영합니다.
+	</div>
+	<div class="alert alert-warning" role="alert" id="logoutResult" style="display:none;">
+		로그아웃 하였습니다.
+	</div>
+	<div class="alert alert-success" role="alert" id="payResult" style="display:none;">
+		결제가 완료되었습니다. 감사합니다.
+	</div>
+	<!-- The slideshow -->
+	<div class="carousel-inner">
+		<div class="carousel-item active">
+    	<img src="/mj/images/main_image1.jpg" alt="img1">
     </div>
     <div class="carousel-item">
-      <img src="/mj/images/main_image2.jpg" alt="img2">
+    	<img src="/mj/images/main_image2.jpg" alt="img2">
     </div>
   </div>
 

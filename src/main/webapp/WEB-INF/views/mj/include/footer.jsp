@@ -1,5 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!-- footer css -->
+<style>
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 150px; /* Set the fixed height of the footer here */
+	line-height: 50px; /* Vertically center the text there */
+	background-color: #DDDDDD;
+}
+.footer_text{ 
+	height:12px;
+	font-size:12px;
+	margin-left:150px;
+}
+#footer_logo{
+	padding-top: 30px;
+}
+</style>
 <!-- footer -->
 <footer class="footer">
     <div class="container">

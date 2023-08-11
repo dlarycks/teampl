@@ -12,9 +12,10 @@
 	
 	<insert id="register">
 		insert into tbl_member 
-			(member_no, member_id, member_pw, member_name, member_pno, member_email)
+			(member_no, member_id, member_pw, member_name, member_birth, member_pno, member_email, member_addr1, member_addr2)
     	values
-    		((10000 + seq_member_no.nextval), #{member_id}, #{member_pw}, #{member_name}, #{member_pno}, #{member_email})
+    		((10000 + seq_member_no.nextval), #{member_id}, #{member_pw}, #{member_name},
+    		 #{member_birth}, #{member_pno}, #{member_email}, #{member_addr1}, #{member_addr2})
 	</insert>
 	
 	<select id="isDup" resultType="int">

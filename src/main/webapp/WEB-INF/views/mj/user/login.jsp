@@ -38,6 +38,11 @@
 </style>
 <script>
 $(function(){
+	var loginResult = "${loginResult}";
+	if (loginResult != "") {
+		$("#divLoginResult").fadeIn(600);
+	}
+	
 	/* 아이디, 비밀번호 입력 여부 검증 */
 	$("#btnLogin").click(function(){
 		var member_id = $("#member_id").val();
@@ -128,6 +133,11 @@ $(function(){
 </div>
 <div id="wrap">
 <div class="container-fluid">
+	<div id="divLoginResult" class="row" style="display:none;">
+		<div class="alert alert-success">
+		  <strong>로그인 실패!</strong>${loginResult}
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-md-12">
 			<form id="frmLogin" role="form" method="post">

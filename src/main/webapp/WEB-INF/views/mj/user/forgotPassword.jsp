@@ -70,7 +70,7 @@ $(function(){
 </head>
 <body>
 <div id="wrap">
-	<img src="/mj/images/logo.png" alt="로고이미지">
+	<a href="/"><img src="/mj/images/logo.png" alt="로고이미지"></a>
 	<!-- 회원정보 입력창 -->
 	<form id="frmForgotPassword" action="/user/register" method="post" style="margin-top:30px;">
 		<div class="form-row">

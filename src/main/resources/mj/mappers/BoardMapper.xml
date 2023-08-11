@@ -5,6 +5,85 @@
  
 <mapper namespace="com.kh.teampl.BoardMapper">
 	
+	<select id="getBoardCount" resultType="int">
+		select count(*) from tbl_board
+	</select>
+	<select id="getBoardCountByType" resultType="int">
+		select count(*) from tbl_board
+		where board_type = #{board_type}
+	</select>
+	
+	<select id="getList" resultType="BoardVo">
+		select * from (
+		    select rownum rnum, a.* 
+		        from (select * from tbl_board
+		        		<include refid="list"></include>
+		                order by board_no desc) a)
+		where rnum between #{startRnum} and #{endRnum}
+	</select>
+	
+	<select id="read" resultType="BoardVo">
+		select * from tbl_board
+		where board_no = #{board_no}	
+	</select>
+	
+<!-- 	<insert id="testInput300"> -->
+<!-- 		insert into tbl_board(board_no, member_id, board_type, board_title, board_content) -->
+<!-- 			values(seq_board_no.nextval, #{member_id}, #{board_type}, #{board_title}, #{board_content}) -->
+<!-- 	</insert> -->
+	
+	<select id="seq_nextval" resultType="int">
+		select seq_board_no.nextval from dual
+	</select>
+	
+	<insert id="register">
+		insert into tbl_board(board_no, member_id, board_type, board_title, board_content)
+			values(#{board_no}, #{member_id}, #{board_type}, #{board_title}, #{board_content})
+	</insert>
+	
+	<insert id="insertAttach">
+		insert into tbl_board_img(board_no, board_imgsrc)
+			values(#{board_no}, #{board_imgsrc})
+	</insert>
+
+	<select id="getImageList" resultType="string">
+		select board_imgsrc from tbl_board_img
+			where board_no = #{board_no}
+	</select>	
+	
+	<!-- 검색 조건 -->
+	<sql id="list">
+		<!-- where board_type = ... -->
+		<choose>
+			<when test="board_type != '공지'.toString() and board_type != '전체'.toString()">
+		  		where board_type != '공지' and board_type = #{board_type}
+			</when>
+			<when test="board_type != '공지'.toString()">
+		  		where board_type != '공지'
+			</when>
+			<when test="board_type == '공지'.toString()">
+				where board_type = '공지'
+			</when>
+		</choose>
+		
+		<if test="keyword != null">
+		<!-- and title/content/writer like .... -->
+			<choose>
+				<when test="searchType == '작성자'.toString()">
+			  		and member_id like '%' || #{keyword} || '%'
+				</when>
+				<when test="searchType == '제목+내용'.toString()">
+			  		and (board_title like '%' || #{keyword} || '%'
+			  			or board_content like '%' || #{keyword} || '%')
+				</when>
+				<when test="searchType == '전체'.toString()">
+			  		and (board_title like '%' || #{keyword} || '%'
+			  			or board_content like '%' || #{keyword} || '%'
+			  			or member_id like '%' || #{keyword} || '%')
+				</when>
+			</choose>
+		</if>
+	</sql>
 	
 
 </mapper>

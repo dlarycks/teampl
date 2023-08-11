@@ -6,7 +6,7 @@
 	text-align:center;
 }
 dt {
-	margin-top:10px;
+	margin-top:25px;
 }
 </style>
 <div id="userInfo">
