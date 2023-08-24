@@ -23,8 +23,8 @@ public class VerifyController {
 
     // Iamport 결제 검증 컨트롤러
     private final IamportClient iamportClient;
-    private final String REST_API_KEY = "3288520434237156";
-    private final String REST_API_SECRET = "mEpSleUEqbXNqoMd187xxFnjO585LANZBkmgMyNJ9uuLjqztlyj1y3iU1ZKOaeC9dKi7piNHTzbKKWET";
+    private final String REST_API_KEY = "/* !! REST_API_KEY !! */";
+    private final String REST_API_SECRET = "/* !! REST_API_SECRET !! */";
 
     // 생성자를 통해 REST API 와 REST API secret 입력
     public VerifyController(){

@@ -96,7 +96,7 @@ $(function(){
 		// 카카오 로그인 실행시 오류메시지를 표시하는 경고창을 화면에 보이지 않게 한다.
 		$("alert-kakao-login").addClass("d-none");
 		
-		Kakao.init('6c4eb09b5e497a157e9978178681ad23');
+		Kakao.init('/* !! KAKAO_INIT_KEY !! */');
 		Kakao.Auth.login({
 			
 			success:function(auth){
@@ -124,7 +124,7 @@ $(function(){
 	/* 네이버 로그인 */
 	const naverLogin = new naver.LoginWithNaverId(
             {
-                clientId: "lxzgOTBdH9ntxVquh853",
+                clientId: "/* !! NAVER_INIT_KEY !! */",
                 callbackUrl: "http://localhost/user/login",
                 loginButton: {color: "green", type: 3, height: 55}
             }

@@ -86,7 +86,7 @@ $(function(){
     const buyerMemberEmail = "${memberVo.member_email}";
     const buyerMemberName = "${memberVo.member_name}";
     const IMP = window.IMP;
-    IMP.init("imp21013207");
+    IMP.init("/* !! 본인의 가맹점 식별코드 !! */");
 
     function requestPay() {
         // IMP.request_pay(param, callback) 결제창 호출
