@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.kh.teampl.ShopMapper">
+
+	<select id="seq_nextval" resultType="int">
+		select seq_order_no.nextval from dual
+	</select>
+
+	<select id="productList" resultType="ProductVo">
+		select * from tbl_product 
+    		where product_no like #{category_key} || '%'
+	</select>
+	
+	<insert id="insertOrder">
+		insert into tbl_order(order_no, member_no, order_content, order_price)
+			values(#{order_no}, #{member_no}, #{order_content}, #{order_price})
+	</insert>
+	
+	<insert id="insertOrderDetail">
+		insert into tbl_order_detail(order_no, order_cpu, order_mb, order_ram, order_vga, order_power, order_case, order_ssd)
+			values(#{order_no}, #{order_cpu}, #{order_mb}, #{order_ram}, #{order_vga}, #{order_power}, #{order_case}, #{order_ssd})
+	</insert>
+	
+	<select id="showOrderList" resultType="OrderVo">
+		select * from tbl_order
+			where member_no = #{member_no}
+			order by order_no desc
+	</select>
+	
+	<select id="getWizardList" resultType="WizardVo">
+		select * from 
+			(select * from 
+				(select rownum rnum, a.* from 
+						(select * from tbl_wizard_pc 
+						 	order by abs(wizard_value - #{wizard_value}) asc) a) 
+						 where rnum &lt;= 3) 
+			 order by wizard_value asc
+	</select>
+	
+	<select id="getWizard" resultType="WizardVo">
+		select wizard_cpu_no, wizard_mb_no, wizard_ram_no, wizard_vga_no, wizard_power_no, wizard_case_no, wizard_ssd_no from tbl_wizard_pc
+			where wizard_no = #{wizard_no}
+	</select>
+	
+	<select id="getProductInfo" resultType="ProductVo">
+		select * from tbl_product
+			where product_no = #{product_no}
+	</select>
+	
+	
+</mapper>

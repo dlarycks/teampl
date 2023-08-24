@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.kh.teampl.BoardMapper">
+	
+	<select id="getBoardCount" resultType="int">
+		select count(*) from tbl_board
+		<choose>
+			<when test="board_type == '전체'.toString()">
+			where board_type != '공지'
+			</when>
+			<when test="board_type != '전체'.toString()">
+			where board_type = #{board_type}
+			</when>
+		</choose>
+		<if test="keyword != null">
+			<!-- and title/content/writer like .... -->
+				<choose>
+					<when test="searchType == '작성자'.toString()">
+				  		and member_id like '%' || #{keyword} || '%'
+					</when>
+					<when test="searchType == '제목+내용'.toString()">
+				  		and (board_title like '%' || #{keyword} || '%'
+				  			or board_content like '%' || #{keyword} || '%')
+					</when>
+					<when test="searchType == '전체'.toString()">
+				  		and (board_title like '%' || #{keyword} || '%'
+				  			or board_content like '%' || #{keyword} || '%'
+				  			or member_id like '%' || #{keyword} || '%')
+					</when>
+				</choose>
+			</if>
+	</select>
+	
+	<select id="getList" resultType="BoardVo">
+		select * from (
+		    select rownum rnum, a.* 
+		        from (select * from tbl_board
+		        		<include refid="list"></include>
+		                order by board_no desc) a)
+		where rnum between #{startRnum} and #{endRnum}
+	</select>
+	
+	<select id="read" resultType="BoardVo">
+		select * from tbl_board
+			where board_no = #{board_no}
+	</select>
+	
+	<update id="updateViewcount">
+		update tbl_board
+		    set board_viewcount = board_viewcount + 1
+		    where board_no = #{board_no}
+	</update>
+	
+	<select id="seq_nextval" resultType="int">
+		select seq_board_no.nextval from dual
+	</select>
+	
+	<insert id="register">
+		insert into tbl_board(board_no, member_id, board_type, board_title, board_content)
+			values(#{board_no}, #{member_id}, #{board_type}, #{board_title}, #{board_content})
+	</insert>
+	
+	<update id="update">
+		update tbl_board
+			set board_type = #{board_type}, board_title = #{board_title},
+			board_content = #{board_content}, board_regdate = sysdate
+			where board_no = #{board_no}
+	</update>
+	
+	<delete id="delete">
+		delete from tbl_board
+			where board_no = #{board_no}	
+	</delete>
+	
+	<insert id="insertAttach">
+		insert into tbl_board_img(board_no, board_imgsrc)
+			values(#{board_no}, #{board_imgsrc})
+	</insert>
+	
+	<delete id="deleteReply">
+		delete from tbl_reply
+			where board_no = #{board_no}
+	</delete>
+	
+	<delete id="deleteAttach">
+		delete from tbl_board_img
+			where board_no = #{board_no}
+	</delete>
+	
+	<delete id="deleteSingleAttach">
+		delete from tbl_board_img
+			where board_imgsrc = #{board_imgsrc}
+	</delete>
+	
+	<delete id="deleteLike">
+		delete from tbl_board_like
+			where board_no = #{board_no}	
+	</delete>
+	
+	<select id="getImageList" resultType="string">
+		select board_imgsrc from tbl_board_img
+			where board_no = #{board_no}
+	</select>	
+	
+	<!-- 검색 조건 -->
+	<sql id="list">
+		<!-- where board_type = ... -->
+		<choose>
+			<when test="board_type != '공지'.toString() and board_type != '전체'.toString()">
+		  		where board_type != '공지' and board_type = #{board_type}
+			</when>
+			<when test="board_type != '공지'.toString()">
+		  		where board_type != '공지'
+			</when>
+			<when test="board_type == '공지'.toString()">
+				where board_type = '공지'
+			</when>
+		</choose>
+		
+		<if test="keyword != null">
+		<!-- and title/content/writer like .... -->
+			<choose>
+				<when test="searchType == '작성자'.toString()">
+			  		and member_id like '%' || #{keyword} || '%'
+				</when>
+				<when test="searchType == '제목+내용'.toString()">
+			  		and (board_title like '%' || #{keyword} || '%'
+			  			or board_content like '%' || #{keyword} || '%')
+				</when>
+				<when test="searchType == '전체'.toString()">
+			  		and (board_title like '%' || #{keyword} || '%'
+			  			or board_content like '%' || #{keyword} || '%'
+			  			or member_id like '%' || #{keyword} || '%')
+				</when>
+			</choose>
+		</if>
+	</sql>
+	
+
+</mapper>

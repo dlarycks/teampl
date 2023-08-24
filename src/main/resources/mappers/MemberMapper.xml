@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.kh.teampl.MemberMapper">
+	
+	<select id="login" resultType="int">
+		select count(*) from tbl_member
+		where member_id = #{member_id} and member_pw = #{member_pw}
+	</select>
+	
+	<insert id="register">
+		insert into tbl_member 
+			(member_no, member_id, member_pw, member_name, member_birth, member_pno, member_email, member_addr1, member_addr2)
+    	values
+    		((10000 + seq_member_no.nextval), #{member_id}, #{member_pw}, #{member_name},
+    		 #{member_birth}, #{member_pno}, #{member_email}, #{member_addr1}, #{member_addr2})
+	</insert>
+	
+	<insert id="registerAuth">
+		insert into tbl_member 
+			(member_no, member_id, member_pw, member_name, member_pno, member_email)
+    	values
+    		((90000 + seq_auth_member_no.nextval), #{member_id}, #{member_pw}, 
+    		#{member_name}, #{member_pno}, #{member_email})
+	</insert>
+	
+	<select id="isDup" resultType="int">
+		select count(*) from tbl_member
+		where member_id = #{member_id}
+	</select>
+	
+	<select id="getMemberInfo" resultType="MemberVo">
+		select * from tbl_member
+		where member_id = #{member_id}
+	</select>
+	
+	<select id="chkForgotId" resultType="string">
+		select member_id from tbl_member
+		where member_name = #{member_name} 
+			and member_email = #{member_email}
+	</select>
+	
+	<select id="chkForgotPassword" resultType="int">
+		select count(*) from tbl_member
+		where member_id = #{member_id} 
+			and member_name = #{member_name} 
+			and member_email = #{member_email}
+	</select>
+	
+	<update id="changePassword">
+		update tbl_member
+			set member_pw = #{new_password}
+			where member_id = #{member_id}
+	</update>
+
+</mapper>

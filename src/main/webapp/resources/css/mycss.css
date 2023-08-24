@@ -1,0 +1,20 @@
+@charset "UTF-8";
+html {
+	position: relative;
+	min-height: 100%;
+}
+body {
+	margin-bottom: 250px; /* Margin bottom by footer height */
+}
+@keyframes nav_link_hover {
+	from {font-weight: normal;}
+	to {font-weight: bold;}
+}
+.nav-link:hover {
+	animation-name: nav_link_hover;
+	animation-duration: 0.5s;
+}
+.my-alert {
+	display:none;
+	margin:16px 0px 0px;
+}

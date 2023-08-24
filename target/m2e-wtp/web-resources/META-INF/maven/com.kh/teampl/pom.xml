@@ -225,8 +225,43 @@
 		    <artifactId>spring-context-support</artifactId>
 		    <version>4.1.7.RELEASE</version>
 		</dependency>
-				
+		
+		<!-- 채팅 위한 socket -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <!-- // 채팅 위한 socket -->
+		
+		<!-- 결제 -->
+		<dependency>
+		    <groupId>com.github.iamport</groupId>
+		    <artifactId>iamport-rest-client-java</artifactId>
+		    <version>0.2.23</version>
+		</dependency>
+		
 	</dependencies>
+	
+	<repositories>
+		<!-- 결제 -->
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+	
     <build>
         <plugins>
             <plugin>

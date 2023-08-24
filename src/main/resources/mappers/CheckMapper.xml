@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.kh.teampl.CheckMapper">
+	
+	<!-- cpu & ram 됨-->
+	<select id="crCheck" resultType="int">
+		select count(*) from tbl_product_cpu c, tbl_product_ram r
+			where c.cpu_standard = r.ram_standard <!-- ddr4 or ddd5 -->
+			and c.product_no = #{cpu_product_no}
+			and r.product_no = #{ram_product_no}
+	</select>
+	
+	<!-- cpu & mb 됨 -->
+	<select id="cmCheck" resultType="int">
+		select count(*) from tbl_product_cpu c, tbl_product_mb m
+			where c.cpu_company = m.mb_company
+			and c.cpu_socket = m.mb_socket
+			and c.cpu_standard = m.mb_standard 
+			and c.product_no = #{cpu_product_no}
+			and m.product_no = #{mb_product_no}
+	</select>
+	
+	<!-- mb & ram 됨-->
+	<select id="mrCheck" resultType="int">
+		select count(*) from tbl_product_mb m, tbl_product_ram r
+		where m.mb_standard = r.ram_standard
+			and to_number(m.mb_storage) &gt;= to_number(r.ram_storage)
+			and m.product_no = #{mb_product_no}
+			and r.product_no = #{ram_product_no}
+	</select>
+	
+	<!-- mb & vga 됨 -->
+	<select id="mvCheck" resultType="int">
+		select count(*) from tbl_product_mb m, tbl_product_vga v
+			where to_number(substr(m.mb_connect, 5)) &gt;= to_number(substr(v.vga_connect, 5))
+			and m.product_no = #{mb_product_no}
+			and v.product_no = #{vga_product_no}
+		
+	</select>
+	
+	<!-- mb & ssd 됨-->
+	<select id="msCheck" resultType="int">
+		select count(*) from tbl_product_mb m, tbl_product_ssd s
+			where m.mb_length &gt;= s.ssd_length
+			and m.product_no = #{mb_product_no}
+			and s.product_no = #{ssd_product_no}
+	</select>
+	
+	<!-- case & mb 됨-->
+	<select id="caseMbCheck" resultType="int">
+		select count(*) from tbl_product_mb
+		where (select case_mb_size from tbl_product_case
+	         	where product_no = #{case_product_no}) &gt;= all (
+					select mb_size from tbl_product_mb
+					where product_no = #{mb_product_no})
+	</select>
+	
+	<!-- case & power 됨-->
+	<select id="casePowerCheck" resultType="int">
+		select count(*) from tbl_product_case c, tbl_product_power p
+			where c.case_power_size = p.power_size
+			and c.product_no = #{case_product_no}
+			and p.product_no = #{power_product_no}
+	</select>
+	
+	<!-- case & vga 됨-->
+	<select id="caseVgaCheck" resultType="int">
+		select count(*) from tbl_product_case c, tbl_product_vga v
+			where to_number(c.case_vga_size) &gt;= to_number(v.vga_size)
+			and c.product_no = #{case_product_no}
+			and v.product_no = #{vga_product_no}
+	</select>
+	
+
+
+</mapper>
